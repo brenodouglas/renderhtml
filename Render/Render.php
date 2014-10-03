@@ -1,7 +1,7 @@
 <?php 
 namespace Render\Render;
 
-use Interface\InterfaceRender;
+use Render\Render\Interfaces\InterfaceRender;
 
 /**
  * 
