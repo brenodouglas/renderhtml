@@ -83,8 +83,11 @@ class Render implements InterfaceRender
             ob_start();
                 require_once $fileLayout;
             $this->html = ob_get_clean();
+			
+			header("Content-type: text/html");
             echo $this->html;
         } else {
+			header("Content-type: text/html");
             echo $this->content();
         }
         
@@ -115,13 +118,13 @@ class Render implements InterfaceRender
         self::$viewPath = $path;
     }
     
-    public static function extendsLayout($layout) 
+    public static function setupLayout($layout) 
     {
         self::$layout = $layout;
     }
     
     public function extendsLayout($layout) 
     {
-        $this>layout = $layout;
+        $this->layout = $layout;
     }
 }
