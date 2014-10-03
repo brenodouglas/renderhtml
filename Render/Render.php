@@ -14,10 +14,8 @@ class Render implements InterfaceRender
     private $stylesCollection;
     private $content;
     private $html;
-    private $controller;
-    private $module;
     private static $viewPath;
-    private $layout;
+    private static $layout;
     
     public function __construct()
     {
@@ -70,27 +68,27 @@ class Render implements InterfaceRender
 
         return $html;
     }
-
-    public static function render($page, array $vars = array(), $layout = true)
-    {   
-        $this->extractVar($vars);
+	
+	public function renderTemplate($page, array $vars = array(), $layout = true)
+	{
+		$this->extractVar($vars);
         $this->createContent($page);
         
-		
-        $fileLayout = $viewPath. "/" . $this->layout;
-        
+        $fileLayout = self::$viewPath. "/" . self::$layout. ".phtml";
         if ($layout == true && file_exists($fileLayout)) {
             ob_start();
                 require_once $fileLayout;
             $this->html = ob_get_clean();
-			
-			header("Content-type: text/html");
             echo $this->html;
         } else {
-			header("Content-type: text/html");
             echo $this->content();
         }
-        
+	}
+	
+    public static function render($page, array $vars = array(), $layout = true)
+    {   
+		$render = new static();
+        $render->renderTemplate($page, $vars, $layout);
     }
     
     private function extractVar(array $var)
@@ -125,6 +123,7 @@ class Render implements InterfaceRender
     
     public function extendsLayout($layout) 
     {
-        $this->layout = $layout;
+        self::$layout = $layout;
     }
+	
 }
