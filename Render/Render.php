@@ -99,7 +99,29 @@ class Render implements InterfaceRender
             $this->$key = $value;
         endforeach;
     }
+    
+    public function addPartial($page, array $vars = array())
+    {
+        $html = $this->createContentPartial($page);
+        echo $html;
+    }
+    
+    private function createContentPartial($action)
+    {   
+        $actions = explode(":", $action);
+        
+        $file = self::$viewPath[$actions[0]] . '/partials/' . $actions[1] . '.phtml';
 
+        if (file_exists($file)) {
+            ob_start();
+            require_once $file;
+            $content = ob_get_clean();
+            return $content;
+        } else {
+            throw new \Exception("Partifal file no exists for action: {$file}");
+        }
+    }
+    
     public function createContent($action)
     {   
         $actions = explode(":", $action);

@@ -16,5 +16,6 @@ interface InterfaceRender
     public function getStyles();
     public function getScripts();
     public function createContent($action);
+    public function addPartial($page, array $vars = array());
     
 }
