@@ -81,16 +81,22 @@ class Render implements InterfaceRender
             ob_start();
             require_once $fileLayout;
             $this->html = ob_get_clean();
-            echo $this->html;
+            return $this->html;
         } else {
-            echo $this->content();
+            return $this->content();
         }
     }
 
     public static function render($page, array $vars = array(), $layout = true)
     {
         $render = new static();
-        $render->renderTemplate($page, $vars, $layout);
+        echo $render->renderTemplate($page, $vars, $layout);
+    }
+
+    public static function getHtmlTemplate($page, array $vars = array(), $layout = false)
+    {
+        $render = new static();
+        return $render->renderTemplate($page, $vars, $layout);
     }
 
     private function extractVar(array $var)
