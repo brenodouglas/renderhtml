@@ -2,6 +2,7 @@
 namespace Render\Render;
 
 use Render\Render\Interfaces\InterfaceRender;
+use Render\Render\Interfaces\ViewHelperInterface;
 
 /**
  * 
@@ -16,19 +17,23 @@ class Render implements InterfaceRender
     private $html;
     private static $viewPath;
     private static $layout;
+    private static $viewsHelpers;
 
     public function __construct()
     {
         $this->scriptsCollection = new \ArrayIterator();
         $this->stylesCollection = new \ArrayIterator();
         //$this->registerHelpers();
+        self::$viewsHelpers = new \ArrayIterator();
     }
 
     public function __call($name, $arguments)
     {
-        if (isset($this->$name)) {
-            $object = clone $this->$name;
-            return $object();
+        if (self::$viewsHelpers->offsetExists($name)) {
+            $object = self::$viewsHelpers->offsetGet($name);
+
+            if($object instanceof ViewHelperInterface)
+                return $object->run();
         }
     }
 
@@ -151,6 +156,11 @@ class Render implements InterfaceRender
     public static function setupLayout($layout)
     {
         self::$layout = $layout;
+    }
+
+    public static function registerViewHelper($alias, $classNamespace)
+    {
+        self::$viewsHelpers->offsetSet($alias, new $classNamespace);
     }
 
     public function extendsLayout($layout)
