@@ -17,14 +17,13 @@ class Render implements InterfaceRender
     private $html;
     private static $viewPath;
     private static $layout;
-    private static $viewsHelpers;
+    private static $viewsHelpers = new \ArrayIterator();
 
     public function __construct()
     {
         $this->scriptsCollection = new \ArrayIterator();
         $this->stylesCollection = new \ArrayIterator();
         //$this->registerHelpers();
-        self::$viewsHelpers = new \ArrayIterator();
     }
 
     public function __call($name, $arguments)
