@@ -17,7 +17,7 @@ class Render implements InterfaceRender
     private $html;
     private static $viewPath;
     private static $layout;
-    private static $viewsHelpers = new \ArrayIterator();
+    private static $viewsHelpers;
 
     public function __construct()
     {
@@ -159,7 +159,10 @@ class Render implements InterfaceRender
 
     public static function registerViewHelper($alias, $classNamespace)
     {
-        self::$viewsHelpers->offsetSet($alias, new $classNamespace);
+        if (! self::$viewsHelpers)
+            self::$viewsHelpers = new \ArrayIterator();
+        
+        self::$viewsHelpers->offsetSet($alias, new $classNamespace());
     }
 
     public function extendsLayout($layout)
