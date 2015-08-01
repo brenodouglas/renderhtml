@@ -83,7 +83,7 @@ class Render implements InterfaceRender
         $fileLayout = self::$viewPath[$page] . "/" . self::$layout . ".phtml";
         if ($layout == true && file_exists($fileLayout)) {
             ob_start();
-            require_once $fileLayout;
+            require $fileLayout;
             $this->html = ob_get_clean();
             return $this->html;
         } else {
@@ -124,7 +124,7 @@ class Render implements InterfaceRender
 
         if (file_exists($file)) {
             ob_start();
-            require_once $file;
+            require $file;
             $content = ob_get_clean();
             return $content;
         } else {
@@ -140,7 +140,7 @@ class Render implements InterfaceRender
 
         if (file_exists($file)) {
             ob_start();
-            require_once $file;
+            require $file;
             $this->content = ob_get_clean();
         } else {
             throw new \Exception("View file no exists for action");
