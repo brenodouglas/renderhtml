@@ -112,6 +112,7 @@ class Render implements InterfaceRender
     
     public function addPartial($page, array $vars = array())
     {
+        $this->extractVar($vars);
         $html = $this->createContentPartial($page);
         echo $html;
     }
